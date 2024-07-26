@@ -5,6 +5,7 @@ import springImage from "@/assets/spring.png";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import Link from "next/link";
 
 export const CallToAction = () => {
   const sectionRef = useRef(null);
@@ -46,7 +47,9 @@ export const CallToAction = () => {
           />
         </div>
         <div className="flex gap-2 mt-10 justify-center">
+        <Link href={"https://discord.gg/tdSaAK7EFJ"}>
           <button className="btn btn-primary">Get for free</button>
+        </Link>
         </div>
       </div>
     </section>

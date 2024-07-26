@@ -2,6 +2,7 @@
 import CheckIcon from "@/assets/check.svg";
 import { twMerge } from "tailwind-merge";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 const pricingTiers = [
   {
@@ -118,6 +119,7 @@ export const Pricing = () => {
                     /month
                   </span>
                 </div>
+                <Link href={"https://discord.gg/tdSaAK7EFJ"}>
                 <button
                   className={twMerge(
                     "btn btn-primary w-full mt-[30px]",
@@ -126,6 +128,7 @@ export const Pricing = () => {
                 >
                   {buttonText}
                 </button>
+                </Link>
                 <ul className="flex flex-col gap-5 mt-8">
                   {features.map((feature) => (
                     <li className="text-sm flex items-center gap-4" key={feature[1]}>

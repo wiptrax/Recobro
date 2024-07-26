@@ -33,7 +33,7 @@ module.exports = {
    base_sepolia : {
         url: `${process.env.BASE_SEPOLIA_API_URL}`,
         accounts: [process.env.YOUR_PRIVATE_KEY],
-        gasPrice: 1000000000,
+        gasPrice: 20000000000,
     }
 
   },

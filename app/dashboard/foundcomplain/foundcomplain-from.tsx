@@ -19,19 +19,19 @@ type ComplaintProp = {
 }
 
 
-export function LostComplainForm() {
+export function FoundComplainForm() {
 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [data, setData] = useState<ComplaintProp>({
-        name : "",
-        subOrgId : 0,
-        walletAddress : "",
-        email : "",
-        description : "",
-        images : [],
+      name : "",
+      subOrgId : 0,
+      walletAddress : "",
+      email : "",
+      description : "",
+      images : [],
       });
 
-      const { fileLostComplainbase, fileLostComplainPolygon, isConfirmed, isConfirming } = LostAndFound();
+      const { fileFoundComplaintBase, fileFoundComplaintPolygon, isConfirmed, isConfirming } = LostAndFound();
       const isLoading = isConfirming || isSubmitting;
 
       useEffect(() => {
@@ -51,7 +51,7 @@ export function LostComplainForm() {
                   ...data,
                 });
                 if (chainid == 84532){
-                  fileLostComplainbase({
+                  fileFoundComplaintBase({
                     name : data.name,
                     subOrgId : data.subOrgId,
                     walletAddress : data.walletAddress,
@@ -60,7 +60,7 @@ export function LostComplainForm() {
                     images : data.images,
                 });
                 }else{
-                  fileLostComplainPolygon({
+                  fileFoundComplaintPolygon({
                     name : data.name,
                     subOrgId : data.subOrgId,
                     walletAddress : data.walletAddress,
@@ -132,7 +132,7 @@ export function LostComplainForm() {
         <div className=" my-1">
               <Label>Images</Label>
               <div className=" max-w-40">
-                <UploadDropzone
+              <UploadDropzone
                     endpoint="imageUploader"
                     onDrop={(acceptedFiles) => {
                       // Do something with the accepted files
@@ -163,7 +163,7 @@ export function LostComplainForm() {
                 </div>
         </div>
 
-        <Button type="button" disabled={isLoading} onClick={handleSubmit} className=" my-1">Submit Lost Complain</Button>
+        <Button type="button" disabled={isLoading} onClick={handleSubmit} className=" my-1">Submit Found Complain</Button>
     </div>
   )
 }

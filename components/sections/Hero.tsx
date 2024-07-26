@@ -11,6 +11,7 @@ import {
   useMotionValueEvent,
 } from "framer-motion";
 import { useRef } from "react";
+import Link from "next/link";
 
 export const Hero = () => {
   const heroRef = useRef(null);
@@ -38,7 +39,9 @@ export const Hero = () => {
               successes with power of blockchain.
             </p>
             <div className="flex gap-1 items-center mt-[30px]">
+            <Link href={"https://discord.gg/tdSaAK7EFJ"}>
               <button className="btn btn-primary">Get for free</button>
+            </Link>
             </div>
           </div>
           <div className="mt-20 md:mt-0 md:h-[648px] md:flex-1 relative">

@@ -28,7 +28,7 @@ export function EditSubForm() {
       useEffect(() => {
         if (isConfirmed) {
           toast.dismiss("loading1");
-          toast.success("Suborg Created!");
+          toast.success("Suborg Editted!");
         }
       }, [isConfirmed]);
     
@@ -105,7 +105,7 @@ export function EditSubForm() {
               </p>
         </div>
     
-        <Button type="button" disabled={isLoading} onClick={handleSubmit} className=" my-1">Create SubOrg</Button>
+        <Button type="button" disabled={isLoading} onClick={handleSubmit} className=" my-1">Edit SubOrg</Button>
     </div>
   )
 }

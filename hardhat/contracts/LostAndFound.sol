@@ -21,6 +21,20 @@ contract LostAndFound is Ownable {
         string description;
         string[] images;
         bool isResolved;
+        address resolvedBy;
+        bool isLost;
+    }
+
+    struct ComplaintWithNumber {
+        uint256 complaintNumber;
+        string name;
+        uint256 subOrgId;
+        address walletAddress;
+        string email;
+        string description;
+        string[] images;
+        bool isResolved;
+        address resolvedBy;
         bool isLost;
     }
 
@@ -114,6 +128,7 @@ contract LostAndFound is Ownable {
             description: description,
             images: images,
             isResolved: false,
+            resolvedBy: 0x0000000000000000000000000000000000000000,
             isLost: true
         });
 
@@ -148,6 +163,7 @@ contract LostAndFound is Ownable {
             description: description,
             images: images,
             isResolved: false,
+            resolvedBy: 0x0000000000000000000000000000000000000000,
             isLost: false
         });
 
@@ -166,35 +182,35 @@ contract LostAndFound is Ownable {
         require(isAdmin(complaint.subOrgId, msg.sender), "Caller is not an admin of the relevant sub-organization.");
 
         complaint.isResolved = true;
+        complaint.resolvedBy = msg.sender;
 
         emit ComplaintResolved(complaintId);
     }
 
     /**
-     * @notice Lists all complaints (lost and found) for a specific sub-organization.
-     * @param subOrgId The ID of the sub-organization.
-     * @return An array of complaint IDs related to the sub-organization.
+     * @notice Lists all registered complaints with their complaint numbers.
+     * @return All complaints in a single array of ComplaintWithNumber structs.
      */
-    function listComplaints(uint256 subOrgId) external view returns (uint256[] memory) {
-        require(subOrganizations[subOrgId].exists, "Sub-organization does not exist.");
-
-        uint256[] memory subOrgComplaints = new uint256[](complaintCounter);
-        uint256 count = 0;
+    function listAllComplaints() external view returns (ComplaintWithNumber[] memory) {
+        ComplaintWithNumber[] memory allComplaints = new ComplaintWithNumber[](complaintCounter);
 
         for (uint256 i = 0; i < complaintCounter; i++) {
-            if (complaints[i].subOrgId == subOrgId) {
-                subOrgComplaints[count] = i;
-                count++;
-            }
+            Complaint storage complaint = complaints[i];
+            allComplaints[i] = ComplaintWithNumber({
+                complaintNumber: i,
+                name: complaint.name,
+                subOrgId: complaint.subOrgId,
+                walletAddress: complaint.walletAddress,
+                email: complaint.email,
+                description: complaint.description,
+                images: complaint.images,
+                isResolved: complaint.isResolved,
+                resolvedBy: complaint.resolvedBy,
+                isLost: complaint.isLost
+            });
         }
 
-        // Resize the array to the correct size
-        uint256[] memory result = new uint256[](count);
-        for (uint256 i = 0; i < count; i++) {
-            result[i] = subOrgComplaints[i];
-        }
-
-        return result;
+        return allComplaints;
     }
 
     /**

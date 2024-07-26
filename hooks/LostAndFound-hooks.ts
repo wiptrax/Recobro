@@ -11,8 +11,8 @@ import {
 } from "wagmi";
 
 
-   const chainPolygon =  "0xE29108C44852905d8751D8f3135466D6d9ac4237"
-   const chainBase = "0x6391425E87f1297A67aC5ed3C75957207451BC3A"
+  export const chainPolygon =  process.env.NEXT_PUBLIC_POLYGON
+  export const chainBase = process.env.NEXT_PUBLIC_BASE
 
  type Complaint = {
     name : string;

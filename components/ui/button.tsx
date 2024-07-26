@@ -23,6 +23,8 @@ const buttonVariants = cva(
           "border border-input bg-red-300 hover:bg-red-100 hover:text-accent-foreground",
         outlineGreen:
           "border border-input bg-green-300 hover:bg-green-100 hover:text-accent-foreground",
+        outlineSlate:
+          "border border-input bg-slate-300 hover:bg-slate-100 hover:text-accent-foreground",
       },
       size: {
         default: "h-10 px-4 py-2",

@@ -26,18 +26,19 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import Image from "next/image";
+import { Spinner } from "@/components/ui/spinner";
 
-type IdType = {
-  subOrgId: number;
-};
+
 
 export default function Home() {
 
-  const [Id, setId] = useState<IdType>({
-    subOrgId: 0
-  });
+  const [ complaintId, setComplainId] = useState<number>(1);
+  const [isState, setIsState] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { resolveComplaintBase, resolveComplaintPolygon, isConfirmed, isConfirming } = LostAndFound();
+  const isLoadings = isConfirming || isSubmitting;
+
   const [contractAddress, setContractAddress] = useState(chainPolygon)
-  const istrue = true
 
   const chainid = useChainId()
   const { isConnected } = useAccount({
@@ -56,6 +57,33 @@ export default function Home() {
     isResolved: false,
     resolvedBy: ""
   }])
+
+  useEffect(() => {
+    if (isConfirmed) {
+      toast.dismiss("loading1");
+      toast.success("Complaint filed!");
+    }
+  }, [isConfirmed]);
+
+  const handleState = ( e : number) => {
+    setComplainId(e);
+    setIsState(true);
+        handleResolve()
+
+  }
+
+  const handleResolve = () => {
+
+        if(isState){
+            if (chainid == 84532){
+              resolveComplaintBase(complaintId);
+            }else{
+                resolveComplaintPolygon(complaintId);
+            }
+        setIsSubmitting(false);
+        setIsState(false);
+        }
+  };
 
 useEffect(() => {
 
@@ -97,15 +125,8 @@ const { isError, isLoading, refetch }: any = useReadContract({
           </p>
         </div>
         <Separator className="my-6" />
-        <div className="flex flex-row item-center w-full justify-evenly">
 
-                <Link href={"/dashboard/lostcomplain"}><Button variant={"outlineRed"}>File Lost Complian</Button></Link>
-                <Link href={"/dashboard/getadmins"}><Button variant={"outlineSlate"}>Get Admins Address</Button></Link>
-                <Link href={"/dashboard/foundcomplain"}><Button variant={"outlineGreen"}>File Found Complian</Button></Link>
-            
-        </div>
-
-        <div className="flex flex-wrap gap-5 md:justify-center">
+        {isLoading ? <Spinner /> :<div className="flex flex-wrap gap-5 md:justify-center">
           {complain.map((complain, index) => <Card key={index} className={complain.isLost ? "relative w-[600px] min-w-[450px] bg-red-100" : "relative w-[600px] min-w-[450px] bg-green-100"}>
             <CardHeader className="flex flex-row justify-around">
               <CardTitle className=" flex items-center"><b>Complaint No :</b> {Number(complain.complaintNumber)}</CardTitle>
@@ -137,14 +158,15 @@ const { isError, isLoading, refetch }: any = useReadContract({
               <p className=" flex "><b className=" flex-shrink-0">Description :</b> {complain.description}</p>
 
             </CardContent>
-            <CardFooter>
+            <CardFooter className="flex justify-between gap-5">
               <div>
                 <h1 className=" flex"><b>Type :</b> {complain.isLost ? "Lost" : "Found"}</h1>
                 <p className="flex break-all">{complain.isResolved ? <><b className=" flex-shrink-0">resolve by :</b>{complain.resolvedBy}</> : "" }</p>
               </div>
+              <Button type="button" disabled={isLoadings || complain.isResolved} onClick={() =>  {handleState(Number(complain.complaintNumber)) } } className=" my-1">{complain.isResolved ? "Resolved already" : "Resolve Complain"}</Button>
             </CardFooter>
           </Card>)}
-        </div>
+        </div>}
 
     </div>
     </>

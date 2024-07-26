@@ -4,6 +4,7 @@ import ArrowRight from "@/assets/arrow-right.svg";
 import Logo from "@/assets/logosaas.png";
 import Image from "next/image";
 import MenuIcon from "@/assets/menu.svg";
+import Link from "next/link";
 
 export const Header = () => {
   return (
@@ -13,7 +14,9 @@ export const Header = () => {
           Streamline your workflow and ease your Lost and Found complains
         </p>
         <div className="inline-flex gap-1 items-center">
-          <p>Get started for free</p>
+          <Link href={"https://discord.gg/tdSaAK7EFJ"}>
+            <p>Get started for free</p>
+          </Link>
           <ArrowRight className="h-4 w-4 inline-flex justify-center items-center" />
         </div>
       </div>
@@ -23,9 +26,11 @@ export const Header = () => {
             <Image src={Logo} alt="Saas Logo" height={40} width={40} />
             <MenuIcon className="h-5 w-5 md:hidden" />
             <nav className="hidden md:flex gap-6 text-black/60 items-center">
+            <Link href={"/dashboard"}>
               <button className="bg-black text-white px-4 py-2 rounded-lg font-medium inline-flex align-items justify-center tracking-tight">
-                Get for free
+                Dashboard
               </button>
+            </Link>
             </nav>
           </div>
         </div>
