@@ -3,7 +3,9 @@ import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import { twMerge } from "tailwind-merge";
 import "@rainbow-me/rainbowkit/styles.css";
-import { ClientProvider } from "@/providers/client.provider";
+// import { ClientProvider } from "@/providers/client.provider";
+import { headers } from "next/headers"; // added
+import ContextProvider from '@/context/index'
 
 const dmSans = DM_Sans({ subsets: ["latin"] });
 
@@ -17,12 +19,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookies = headers().get('cookie')
   return (
     <html lang="en" className="relative" suppressHydrationWarning>
       <body className={twMerge(dmSans.className, "antialiased bg-[#EAEEFE]")}>
-        <ClientProvider>
-          {children}
-        </ClientProvider>
+      <ContextProvider cookies={cookies}>{children}</ContextProvider>
       </body>
     </html>
   );
